@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Play, Pause, MoonStar, ArrowUpRight, LoaderCircle, Headphones } from 'lucide-react';
+import { Play, Pause, MoonStar, ArrowUpRight, Headphones } from 'lucide-react';
 import { getFeaturedNaats } from '../services/audius';
 import { usePlayer } from '../context/PlayerContext';
 import type { Track } from '../types/music';
