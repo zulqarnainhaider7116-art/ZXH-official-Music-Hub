@@ -6,19 +6,24 @@ async function fetchAudius<T>(endpoint:string,params:Record<string,string|number
  try{const res=await fetch(url.toString(),{signal:controller.signal,headers:{Accept:'application/json'}});if(!res.ok)throw new Error(`Audius API error: ${res.status} ${res.statusText}`);const json=await res.json();return json.data??json;}finally{clearTimeout(timeout);}
 }
 export function mapAudiusTrack(t:AudiusTrack):Track{
- const artwork=t.artwork?.['480x480']||t.artwork?.['150x150']||t.artwork?.['1000x1000']||`https://picsum.photos/seed/${t.id}/400/400`;
+ const artwork=t.artwork?.['480x480']||t.artwork?.['1000x1000']||t.artwork?.['150x150']||`https://picsum.photos/seed/zxh-track-${encodeURIComponent(t.id)}/640/640`;
  return{id:t.id,title:t.title||'Unknown Track',artist:t.user?.name||t.user?.handle||'Unknown Artist',artistId:t.user?.id,artistArtwork:t.user?.profile_picture?.['480x480']||t.user?.profile_picture?.['150x150']||artwork,duration:t.duration||0,artwork,streamUrl:`${BASE_URL}/tracks/${t.id}/stream?app_name=${APP_NAME}`,genre:t.genre,playCount:t.play_count};
 }
-export async function getTrendingTracks(limit=20,time:'week'|'month'|'year'|'allTime'='week'):Promise<Track[]>{try{const data=await fetchAudius<AudiusTrack[]>('/tracks/trending',{limit,time});return(Array.isArray(data)?data:[]).map(mapAudiusTrack);}catch(e){console.error('Failed to fetch trending tracks',e);return[];}}
-export async function searchTracks(query:string,limit=20):Promise<Track[]>{if(!query.trim())return[];try{const data=await fetchAudius<AudiusTrack[]>('/tracks/search',{query,limit});return(Array.isArray(data)?data:[]).map(mapAudiusTrack);}catch(e){console.error('Search failed',e);return[];}}
+// Keep real Audius cover art, but replace repeated album covers within a collection with a stable track-specific thumbnail.
+export function uniqueTrackArtwork(tracks:Track[]):Track[]{
+ const seen=new Set<string>();
+ return tracks.map(track=>{const key=track.artwork.trim().toLowerCase();if(!seen.has(key)){seen.add(key);return track;}const artwork=`https://picsum.photos/seed/zxh-cover-${encodeURIComponent(track.id)}/640/640`;seen.add(artwork);return{...track,artwork};});
+}
+export async function getTrendingTracks(limit=20,time:'week'|'month'|'year'|'allTime'='week'):Promise<Track[]>{try{const data=await fetchAudius<AudiusTrack[]>('/tracks/trending',{limit,time});return uniqueTrackArtwork((Array.isArray(data)?data:[]).map(mapAudiusTrack));}catch(e){console.error('Failed to fetch trending tracks',e);return[];}}
+export async function searchTracks(query:string,limit=20):Promise<Track[]>{if(!query.trim())return[];try{const data=await fetchAudius<AudiusTrack[]>('/tracks/search',{query,limit});return uniqueTrackArtwork((Array.isArray(data)?data:[]).map(mapAudiusTrack));}catch(e){console.error('Search failed',e);return[];}}
 export async function getFeaturedNaats(limit=30):Promise<Track[]>{
- const queries=['Naat','Naat Sharif','Urdu Naat','Punjabi Naat','Islamic Naat'];
+ const queries=['Naat Sharif','Urdu Naat','Punjabi Naat','Islamic Nasheed','Hamd Naat'];
  const results=await Promise.all(queries.map(q=>searchTracks(q,limit)));
  const unique=new Map<string,Track>();
  const naatPattern=/naat|nasheed|hamd|naatia|madina|madine|mustafa|rasool|nabi|muhammad|sallallahu/i;
  results.flat().forEach(track=>{if(naatPattern.test(`${track.title} ${track.genre||''}`)&&!unique.has(track.id))unique.set(track.id,track);});
- return Array.from(unique.values()).slice(0,limit);
+ return uniqueTrackArtwork(Array.from(unique.values()).slice(0,limit));
 }
-export async function getArtistTracks(artistId:string,limit=30):Promise<Track[]>{if(!artistId)return[];try{const data=await fetchAudius<AudiusTrack[]>(`/users/${encodeURIComponent(artistId)}/tracks`,{limit});return(Array.isArray(data)?data:[]).map(mapAudiusTrack);}catch(e){console.error('Artist tracks failed',e);return[];}}
+export async function getArtistTracks(artistId:string,limit=30):Promise<Track[]>{if(!artistId)return[];try{const data=await fetchAudius<AudiusTrack[]>(`/users/${encodeURIComponent(artistId)}/tracks`,{limit});return uniqueTrackArtwork((Array.isArray(data)?data:[]).map(mapAudiusTrack));}catch(e){console.error('Artist tracks failed',e);return[];}}
 export async function getTrack(id:string):Promise<Track|null>{try{const data=await fetchAudius<AudiusTrack>(`/tracks/${id}`);return data?mapAudiusTrack(data):null;}catch{return null;}}
 export function getStreamUrl(trackId:string):string{return`${BASE_URL}/tracks/${trackId}/stream?app_name=${APP_NAME}`;}
