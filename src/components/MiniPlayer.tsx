@@ -1,4 +1,4 @@
-import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Heart, Maximize2 } from 'lucide-react';
+import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from 'lucide-react';
 import { usePlayer } from '../context/PlayerContext';
 import './MiniPlayer.css';
 
@@ -36,9 +36,7 @@ export default function MiniPlayer() {
             <span className="mp-title">{currentTrack.title}</span>
             <span className="mp-artist">{currentTrack.artist}</span>
           </div>
-          <button className="mp-like" aria-label="Like">
-            <Heart size={18} />
-          </button>
+          
         </div>
 
         <div className="mp-controls">
@@ -74,9 +72,7 @@ export default function MiniPlayer() {
             className="mp-volume"
             aria-label="Volume"
           />
-          <button className="mp-expand" aria-label="Full player">
-            <Maximize2 size={18} />
-          </button>
+          
         </div>
       </div>
     </div>
