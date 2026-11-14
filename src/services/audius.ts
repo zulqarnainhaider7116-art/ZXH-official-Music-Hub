@@ -11,6 +11,14 @@ export function mapAudiusTrack(t:AudiusTrack):Track{
 }
 export async function getTrendingTracks(limit=20,time:'week'|'month'|'year'|'allTime'='week'):Promise<Track[]>{try{const data=await fetchAudius<AudiusTrack[]>('/tracks/trending',{limit,time});return(Array.isArray(data)?data:[]).map(mapAudiusTrack);}catch(e){console.error('Failed to fetch trending tracks',e);return[];}}
 export async function searchTracks(query:string,limit=20):Promise<Track[]>{if(!query.trim())return[];try{const data=await fetchAudius<AudiusTrack[]>('/tracks/search',{query,limit});return(Array.isArray(data)?data:[]).map(mapAudiusTrack);}catch(e){console.error('Search failed',e);return[];}}
+export async function getFeaturedNaats(limit=30):Promise<Track[]>{
+ const queries=['Naat','Naat Sharif','Urdu Naat','Punjabi Naat','Islamic Naat'];
+ const results=await Promise.all(queries.map(q=>searchTracks(q,limit)));
+ const unique=new Map<string,Track>();
+ const naatPattern=/naat|nasheed|hamd|naatia|madina|madine|mustafa|rasool|nabi|muhammad|sallallahu/i;
+ results.flat().forEach(track=>{if(naatPattern.test(`${track.title} ${track.genre||''}`)&&!unique.has(track.id))unique.set(track.id,track);});
+ return Array.from(unique.values()).slice(0,limit);
+}
 export async function getArtistTracks(artistId:string,limit=30):Promise<Track[]>{if(!artistId)return[];try{const data=await fetchAudius<AudiusTrack[]>(`/users/${encodeURIComponent(artistId)}/tracks`,{limit});return(Array.isArray(data)?data:[]).map(mapAudiusTrack);}catch(e){console.error('Artist tracks failed',e);return[];}}
 export async function getTrack(id:string):Promise<Track|null>{try{const data=await fetchAudius<AudiusTrack>(`/tracks/${id}`);return data?mapAudiusTrack(data):null;}catch{return null;}}
 export function getStreamUrl(trackId:string):string{return`${BASE_URL}/tracks/${trackId}/stream?app_name=${APP_NAME}`;}
