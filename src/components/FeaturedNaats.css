@@ -1,1 +1,44 @@
-.featured-naats{padding:clamp(54px,7vw,100px) clamp(18px,5vw,76px);max-width:1600px;margin:0 auto}.naats-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:28px}.naats-eyebrow{display:flex;align-items:center;gap:9px;color:#b9e8c9;font-size:.7rem;font-weight:800;letter-spacing:.18em}.naats-heading h2{font:800 clamp(2.8rem,7vw,6.5rem)/.92 var(--font-display);letter-spacing:-.07em;margin:17px 0 12px}.naats-heading h2 em{font-style:normal;color:#9be2b2}.naats-heading p{color:var(--text-secondary);line-height:1.6}.naats-more{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font-weight:800;padding:13px 18px;border:1px solid #ffffff35;border-radius:999px}.naats-count{font-size:.68rem;font-weight:800;letter-spacing:.16em;color:#a9dfb9;margin:0 0 18px}.naats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 24px}.naat-card{display:flex;align-items:center;gap:14px;min-width:0;padding:10px 12px;border-radius:17px;background:linear-gradient(110deg,#ffffff0d,#ffffff04);border:1px solid #ffffff10;transition:background .2s,border-color .2s}.naat-card:hover,.naat-card.is-active{background:#ffffff16;border-color:#9be2b255}.naat-art{position:relative;flex:0 0 62px;width:62px;height:62px;border-radius:12px;overflow:hidden}.naat-art img{width:100%;height:100%;object-fit:cover}.naat-art span{position:absolute;inset:0;display:grid;place-items:center;background:#061d1480;opacity:0;transition:opacity .2s}.naat-card:hover .naat-art span,.naat-card.is-active .naat-art span{opacity:1}.naat-info{min-width:0;flex:1}.naat-info h3{font-size:.91rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.naat-info p{font-size:.77rem;color:var(--text-muted);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.naat-inline-play{width:36px;height:36px;flex:0 0 36px;border-radius:50%;display:grid;place-items:center;background:#9be2b21c;color:#b9e8c9}.naats-loading,.naats-empty{padding:28px;border:1px solid #ffffff1c;border-radius:18px;color:var(--text-secondary);display:flex;align-items:center;gap:12px}.naats-spin{animation:naatspin 1s linear infinite}@keyframes naatspin{to{transform:rotate(360deg)}}@media(max-width:900px){.naats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.featured-naats{padding:48px 16px 58px}.naats-heading{align-items:start;flex-direction:column}.naats-heading h2{font-size:clamp(2.8rem,13vw,4.5rem)}.naats-heading p{font-size:.9rem}.naats-more{padding:10px 15px;font-size:.82rem}.naats-grid{grid-template-columns:1fr;gap:8px}.naat-card{padding:9px;gap:11px}.naat-art{width:56px;height:56px;flex-basis:56px}.naat-info h3{font-size:.86rem}}
+.featured-naats{position:relative;max-width:1600px;margin:0 auto;padding:clamp(58px,7vw,104px) clamp(18px,5vw,76px);overflow:hidden}
+.featured-naats:before{content:"";position:absolute;width:480px;height:480px;right:-230px;top:8%;border-radius:50%;background:radial-gradient(circle,#a8dfba16,transparent 68%);pointer-events:none}
+.naats-heading{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin-bottom:34px}
+.naats-eyebrow{display:inline-flex;align-items:center;gap:9px;color:#b9e8c9;font-size:.68rem;font-weight:850;letter-spacing:.19em}
+.naats-heading h2{font:850 clamp(3rem,7vw,6.7rem)/.9 var(--font-display);letter-spacing:-.075em;margin:18px 0 14px}
+.naats-heading h2 em{font-style:normal;color:#9be2b2}
+.naats-heading p{max-width:570px;color:var(--text-secondary);line-height:1.7;font-size:.98rem}
+.naats-more{display:inline-flex;align-items:center;gap:9px;white-space:nowrap;font-weight:800;padding:14px 19px;border:1px solid #ffffff35;border-radius:999px;transition:background .2s,border-color .2s,transform .2s}
+.naats-more:hover{background:#9be2b21c;border-color:#9be2b277;transform:translateY(-2px)}
+.naats-toolbar{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 18px;padding-bottom:15px;border-bottom:1px solid #ffffff16}
+.naats-library-label,.naats-count{display:flex;align-items:center;gap:9px;font-size:.66rem;font-weight:850;letter-spacing:.15em;color:var(--text-muted)}
+.naats-live-dot{width:7px;height:7px;border-radius:50%;background:#9be2b2;box-shadow:0 0 13px #9be2b2;flex:none}
+.naats-count{color:#b9e8c9}
+.naats-grid{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.naat-card{display:flex;align-items:center;gap:14px;min-width:0;padding:11px 13px;border-radius:19px;background:linear-gradient(115deg,#ffffff10,#ffffff04);border:1px solid #ffffff12;transition:transform .22s ease,background .22s ease,border-color .22s ease}
+.naat-card:hover,.naat-card.is-active{transform:translateY(-2px);background:linear-gradient(115deg,#9be2b21c,#ffffff08);border-color:#9be2b25c}
+.naat-art{position:relative;flex:0 0 68px;width:68px;height:68px;border-radius:14px;overflow:hidden;background:#17231e}
+.naat-art img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+.naat-card:hover .naat-art img{transform:scale(1.07)}
+.naat-art-play{position:absolute;inset:0;display:grid;place-items:center;color:#fff;background:#061d1480;opacity:0;transition:opacity .2s}
+.naat-card:hover .naat-art-play,.naat-card.is-active .naat-art-play{opacity:1}
+.naat-track-number{position:absolute;left:6px;top:6px;padding:3px 5px;border-radius:5px;background:#07150f99;color:#fff;font-size:.58rem;font-weight:850;letter-spacing:.08em}
+.naat-info{display:block;min-width:0;flex:1;text-align:left}
+.naat-type{display:block;color:#9be2b2;font-size:.55rem;font-weight:850;letter-spacing:.14em;margin-bottom:6px}
+.naat-info h3{font-size:.91rem;line-height:1.3;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.naat-info p{font-size:.76rem;color:var(--text-muted);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.naat-inline-play{width:37px;height:37px;flex:0 0 37px;border-radius:50%;display:grid;place-items:center;background:#9be2b21c;color:#b9e8c9;transition:background .2s,transform .2s}
+.naat-inline-play:hover{background:#9be2b23d;transform:scale(1.06)}
+.naat-skeleton{display:flex;align-items:center;gap:14px;min-width:0;padding:11px 13px;border-radius:19px;background:#ffffff08;border:1px solid #ffffff0d}
+.naat-skeleton-art,.naat-skeleton-lines i{display:block;background:linear-gradient(100deg,#ffffff08 20%,#ffffff18 45%,#ffffff08 70%);background-size:220% 100%;animation:naat-shimmer 1.35s ease-in-out infinite}
+.naat-skeleton-art{width:68px;height:68px;flex:none;border-radius:14px}
+.naat-skeleton-lines{display:grid;gap:10px;flex:1}
+.naat-skeleton-lines i{height:9px;border-radius:9px}
+.naat-skeleton-lines i:last-child{width:62%;height:7px}
+@keyframes naat-shimmer{to{background-position-x:-220%}}
+.naats-empty{display:flex;align-items:center;gap:16px;padding:28px;border:1px solid #ffffff1c;border-radius:20px;color:#b9e8c9}
+.naats-empty strong{color:var(--text-primary)}
+.naats-empty p{margin-top:5px;color:var(--text-secondary);font-size:.86rem}
+.naats-footer-note{text-align:center;margin-top:26px;color:var(--text-muted);font-size:.58rem;font-weight:850;letter-spacing:.2em}
+.naats-footer-note strong{color:#b9e8c9}
+@media(min-width:1250px){.naats-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:900px){.naats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.featured-naats{padding:52px 16px 62px}.naats-heading{align-items:flex-start;flex-direction:column;gap:18px;margin-bottom:27px}.naats-heading h2{font-size:clamp(3rem,13vw,4.6rem)}.naats-heading p{font-size:.88rem}.naats-more{padding:11px 15px;font-size:.8rem}.naats-toolbar{align-items:flex-start;flex-direction:column;gap:9px}.naats-grid{grid-template-columns:1fr;gap:9px}.naat-card{padding:9px;gap:11px}.naat-art,.naat-skeleton-art{width:60px;height:60px;flex-basis:60px}.naat-info h3{font-size:.85rem}.naat-type{font-size:.5rem}.naats-footer-note{font-size:.52rem}}
+@media(prefers-reduced-motion:reduce){.naat-card,.naat-art img,.naat-art-play,.naat-more,.naat-inline-play{transition:none}.naat-skeleton-art,.naat-skeleton-lines i{animation:none}}
