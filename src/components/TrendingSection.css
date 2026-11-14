@@ -155,3 +155,6 @@
     gap: 14px;
   }
 }
+
+@media(max-width:600px){.trending-section{padding:38px 16px}.section-header{align-items:flex-start;gap:12px}.section-header h2{font-size:1.2rem;line-height:1.15}.section-eyebrow{font-size:.62rem}.play-all{padding:9px 13px;font-size:.78rem;white-space:nowrap}.track-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:17px 12px}.card-art-wrap{border-radius:14px}.card-play{opacity:1;transform:none;width:38px;height:38px;bottom:8px;right:8px}.card-meta h4{font-size:.82rem}.card-meta p{font-size:.72rem}.card-dur{font-size:.67rem}}
+@media(max-width:360px){.trending-section{padding-left:13px;padding-right:13px}.track-grid{gap:15px 9px}.section-header h2{font-size:1.05rem}}
