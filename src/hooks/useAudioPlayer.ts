@@ -155,15 +155,15 @@ export function useAudioPlayer() {
     setState((s) => {
       if (!s.queue.length) return s;
       let nextIndex = s.currentIndex + 1;
-      if (nextIndex >= s.queue.length) {
+      if (s.isShuffle && s.queue.length > 1) {
+        do { nextIndex = Math.floor(Math.random() * s.queue.length); }
+        while (nextIndex === s.currentIndex);
+      } else if (nextIndex >= s.queue.length) {
         if (s.repeatMode === 'all') nextIndex = 0;
         else return { ...s, isPlaying: false };
       }
       const nextTrack = s.queue[nextIndex];
-      if (nextTrack) {
-        // fire and forget load
-        setTimeout(() => loadAndPlay(nextTrack, s.queue, nextIndex), 0);
-      }
+      if (nextTrack) setTimeout(() => loadAndPlay(nextTrack, s.queue, nextIndex), 0);
       return s;
     });
   }, [loadAndPlay]);
