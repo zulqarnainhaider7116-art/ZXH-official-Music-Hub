@@ -1,104 +1,27 @@
-import { useState } from 'react';
-import { Search as SearchIcon, Play, Pause } from 'lucide-react';
+import { useState, type FormEvent } from 'react';
+import { Search as SearchIcon, Play, Pause, Sparkles } from 'lucide-react';
 import { searchTracks } from '../services/audius';
 import { usePlayer } from '../context/PlayerContext';
 import type { Track } from '../types/music';
+import '../styles/landing.css';
 
 export default function SearchPage() {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState<Track[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [searched, setSearched] = useState(false);
-  const player = usePlayer();
-
-  const doSearch = async (e?: React.FormEvent) => {
-    e?.preventDefault();
-    if (!query.trim()) return;
-    setLoading(true);
-    setSearched(true);
-    const tracks = await searchTracks(query, 24);
-    setResults(tracks);
-    setLoading(false);
-  };
-
-  const formatTime = (s: number) => {
-    const m = Math.floor(s / 60);
-    const sec = Math.floor(s % 60);
-    return `${m}:${sec.toString().padStart(2, '0')}`;
-  };
-
-  return (
-    <div style={{ paddingTop: 'calc(var(--header-h) + 32px)', paddingBottom: 120, maxWidth: 1400, margin: '0 auto', paddingLeft: 32, paddingRight: 32 }}>
-      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', marginBottom: 24 }}>Search</h1>
-
-      <form onSubmit={doSearch} style={{ display: 'flex', gap: 12, marginBottom: 32 }}>
-        <div style={{ flex: 1, position: 'relative' }}>
-          <SearchIcon size={18} style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Songs, artists, albums..."
-            style={{
-              width: '100%',
-              padding: '14px 16px 14px 44px',
-              borderRadius: 999,
-              border: '1px solid rgba(255,255,255,0.15)',
-              background: 'rgba(255,255,255,0.08)',
-              color: 'white',
-              fontSize: '1rem',
-              outline: 'none',
-            }}
-          />
-        </div>
-        <button
-          type="submit"
-          style={{
-            padding: '0 28px',
-            borderRadius: 999,
-            background: 'var(--gradient-primary)',
-            fontWeight: 600,
-            fontSize: '0.95rem',
-          }}
-        >
-          Search
-        </button>
-      </form>
-
-      {loading && <p style={{ color: 'var(--text-muted)' }}>Searching...</p>}
-
-      {!loading && searched && results.length === 0 && (
-        <p style={{ color: 'var(--text-muted)' }}>No results found for “{query}”.</p>
-      )}
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 20 }}>
-        {results.map((t, i) => (
-          <div
-            key={t.id}
-            onClick={() => player.loadAndPlay(t, results, i)}
-            style={{ cursor: 'pointer' }}
-          >
-            <div style={{ position: 'relative', aspectRatio: 1, borderRadius: 12, overflow: 'hidden', marginBottom: 8 }}>
-              <img src={t.artwork} alt={t.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              <button
-                style={{
-                  position: 'absolute', bottom: 8, right: 8, width: 40, height: 40, borderRadius: '50%',
-                  background: 'var(--fuchsia)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (player.currentTrack?.id === t.id) player.togglePlay();
-                  else player.loadAndPlay(t, results, i);
-                }}
-              >
-                {player.currentTrack?.id === t.id && player.isPlaying ? <Pause size={18} fill="white" /> : <Play size={18} fill="white" />}
-              </button>
-            </div>
-            <div style={{ fontWeight: 600, fontSize: '0.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.title}</div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{t.artist} · {formatTime(t.duration)}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+ const [query,setQuery]=useState(''); const [results,setResults]=useState<Track[]>([]); const [loading,setLoading]=useState(false); const [searched,setSearched]=useState(false); const player=usePlayer();
+ const doSearch=async(e?:FormEvent)=>{e?.preventDefault();if(!query.trim())return;setLoading(true);setSearched(true);const tracks=await searchTracks(query,24);setResults(tracks);setLoading(false)};
+ const formatTime=(s:number)=>`${Math.floor(s/60)}:${Math.floor(s%60).toString().padStart(2,'0')}`;
+ return <div className="landing-page">
+  <div className="landing-kicker"><Sparkles size={15}/> SEARCH THE SOUND</div>
+  <h1 className="landing-heading">What are<br/><em>we feeling?</em></h1>
+  <p className="landing-intro">Find songs, artists and unexpected favourites across the Audius catalogue. Your next repeat-worthy track is one search away.</p>
+  <form onSubmit={doSearch} style={{display:'flex',gap:10,maxWidth:850,margin:'38px 0 52px'}}>
+   <div style={{position:'relative',flex:1,minWidth:0}}><SearchIcon size={19} style={{position:'absolute',left:18,top:'50%',transform:'translateY(-50%)',color:'var(--text-muted)'}}/><input type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search songs, artists, sounds…" aria-label="Search music" style={{width:'100%',padding:'17px 18px 17px 50px',borderRadius:999,border:'1px solid rgba(255,255,255,.18)',background:'rgba(255,255,255,.09)',color:'#fff',fontSize:'1rem',outline:'none',minWidth:0}}/></div>
+   <button type="submit" disabled={loading} className="landing-cta">Search <SearchIcon size={17}/></button>
+  </form>
+  <section className="landing-section"><div className="landing-section-head"><div><h2>{searched?'Search results':'Start exploring'}</h2><p>{searched?`Matches for “${query}”`:'Search by track title, artist name or keyword.'}</p></div></div>
+   {loading&&<p className="landing-loading">Searching the catalogue…</p>}
+   {!loading&&searched&&results.length===0&&<div className="landing-empty">No tracks found for “{query}”. Try another artist or search term.</div>}
+   {!searched&&<div className="landing-feature-grid"><article className="landing-feature"><span>01 · FIND</span><h3>Search a song</h3><p>Type a title and jump straight into the music.</p></article><article className="landing-feature"><span>02 · DISCOVER</span><h3>Explore artists</h3><p>Search a creator and uncover their sound.</p></article><article className="landing-feature"><span>03 · PLAY</span><h3>Keep it going</h3><p>Play a result and let the queue take over.</p></article></div>}
+   {results.length>0&&<div className="landing-track-grid">{results.map((t,i)=><article className="landing-track" key={t.id} onClick={()=>player.loadAndPlay(t,results,i)}><div className="landing-track-art"><img src={t.artwork} alt={t.title} loading="lazy"/><button className="landing-track-play" aria-label={player.currentTrack?.id===t.id&&player.isPlaying?'Pause':'Play'} onClick={e=>{e.stopPropagation();if(player.currentTrack?.id===t.id)player.togglePlay();else player.loadAndPlay(t,results,i)}}>{player.currentTrack?.id===t.id&&player.isPlaying?<Pause size={19} fill="white"/>:<Play size={19} fill="white"/>}</button></div><h3>{t.title}</h3><p>{t.artist} · {formatTime(t.duration)}</p></article>)}</div>}
+  </section>
+ </div>;
 }
