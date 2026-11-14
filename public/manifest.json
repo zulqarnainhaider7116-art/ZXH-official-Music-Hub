@@ -1,0 +1,10 @@
+{
+  "name": "ZXH MUSIC",
+  "short_name": "ZXH Music",
+  "description": "Music Beyond Boundaries — Powered by ZXH OFFICIAL",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a0010",
+  "theme_color": "#FF008C",
+  "icons": []
+}
