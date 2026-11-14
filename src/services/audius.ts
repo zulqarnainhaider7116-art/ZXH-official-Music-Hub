@@ -15,7 +15,7 @@ export function mapAudiusTrack(t:AudiusTrack):Track{
  const artwork=t.artwork?.['480x480']||t.artwork?.['1000x1000']||t.artwork?.['150x150']||makeTrackCover({id:t.id,title:t.title||'Unknown Track',artist:t.user?.name||t.user?.handle||'Unknown Artist'});
  return{id:t.id,title:t.title||'Unknown Track',artist:t.user?.name||t.user?.handle||'Unknown Artist',artistId:t.user?.id,artistArtwork:t.user?.profile_picture?.['480x480']||t.user?.profile_picture?.['150x150']||artwork,duration:t.duration||0,artwork,streamUrl:`${BASE_URL}/tracks/${t.id}/stream?app_name=${APP_NAME}`,genre:t.genre,playCount:t.play_count};
 }
-// Keep real Audius cover art, but replace repeated album covers within a collection with a stable track-specific thumbnail.
+// Keep real Audius artwork, but generate stable track-specific covers whenever a collection repeats an image.
 export function uniqueTrackArtwork(tracks:Track[]):Track[]{
  const seen=new Set<string>();
  return tracks.map(track=>{const key=track.artwork.trim().toLowerCase();if(!seen.has(key)){seen.add(key);return track;}const artwork=makeTrackCover(track);seen.add(artwork);return{...track,artwork};});
@@ -23,11 +23,12 @@ export function uniqueTrackArtwork(tracks:Track[]):Track[]{
 export async function getTrendingTracks(limit=20,time:'week'|'month'|'year'|'allTime'='week'):Promise<Track[]>{try{const data=await fetchAudius<AudiusTrack[]>('/tracks/trending',{limit,time});return uniqueTrackArtwork((Array.isArray(data)?data:[]).map(mapAudiusTrack));}catch(e){console.error('Failed to fetch trending tracks',e);return[];}}
 export async function searchTracks(query:string,limit=20):Promise<Track[]>{if(!query.trim())return[];try{const data=await fetchAudius<AudiusTrack[]>('/tracks/search',{query,limit});return uniqueTrackArtwork((Array.isArray(data)?data:[]).map(mapAudiusTrack));}catch(e){console.error('Search failed',e);return[];}}
 export async function getFeaturedNaats(limit=30):Promise<Track[]>{
- const queries=['Naat Sharif','Urdu Naat','Punjabi Naat','Islamic Nasheed','Hamd Naat'];
- const results=await Promise.all(queries.map(q=>searchTracks(q,limit)));
+ // Search several devotional terms in parallel. Do not title-filter the results:
+ // Audius often indexes genuine Naats under the artist/genre instead of the title.
+ const queries=['Naat Sharif','Urdu Naat','Punjabi Naat','Islamic Nasheed','Hamd'];
+ const batches=await Promise.all(queries.map(query=>searchTracks(query,20)));
  const unique=new Map<string,Track>();
- const naatPattern=/naat|nasheed|hamd|naatia|madina|madine|mustafa|rasool|nabi|muhammad|sallallahu/i;
- results.flat().forEach(track=>{if(naatPattern.test(`${track.title} ${track.genre||''}`)&&!unique.has(track.id))unique.set(track.id,track);});
+ batches.flat().forEach(track=>{if(!unique.has(track.id))unique.set(track.id,track);});
  return uniqueTrackArtwork(Array.from(unique.values()).slice(0,limit));
 }
 export async function getArtistTracks(artistId:string,limit=30):Promise<Track[]>{if(!artistId)return[];try{const data=await fetchAudius<AudiusTrack[]>(`/users/${encodeURIComponent(artistId)}/tracks`,{limit});return uniqueTrackArtwork((Array.isArray(data)?data:[]).map(mapAudiusTrack));}catch(e){console.error('Artist tracks failed',e);return[];}}
