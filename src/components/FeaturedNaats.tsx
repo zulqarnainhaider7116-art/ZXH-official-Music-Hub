@@ -14,8 +14,8 @@ export default function FeaturedNaats() {
 
   useEffect(() => {
     let active = true;
-    getFeaturedNaats(30)
-      .then(items => { if (active) setTracks(items); })
+    getFeaturedNaats(10)
+      .then(items => { if (active) setTracks(items.slice(0, 10)); })
       .catch(error => console.error('Featured Naats could not load', error))
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
@@ -32,24 +32,17 @@ export default function FeaturedNaats() {
         <div className="naats-heading-copy">
           <span className="naats-eyebrow"><MoonStar size={15} /> THE SPIRITUAL SOUND COLLECTION</span>
           <h2>Featured <em>Naats.</em></h2>
-          <p>Beautiful devotional recitations, handpicked from the Audius music catalogue.</p>
+          <p>Ten individual devotional recitations. Each track has its own artwork and a dedicated listening experience.</p>
         </div>
         <Link to="/genre/naat" className="naats-more">Explore collection <ArrowUpRight size={17} /></Link>
       </div>
-
       <div className="naats-toolbar">
-        <div className="naats-library-label"><span className="naats-live-dot" /> CURATED FOR YOUR LISTENING</div>
-        {!loading && <div className="naats-count"><Headphones size={14} /> {tracks.length} INDIVIDUAL TRACKS</div>}
+        <div className="naats-library-label"><span className="naats-live-dot" /> HANDPICKED LISTENING</div>
+        {!loading && <div className="naats-count"><Headphones size={14} /> {tracks.length} TRACKS</div>}
       </div>
-
       {loading ? (
         <div className="naats-grid naats-skeleton-grid" aria-label="Loading featured Naats">
-          {Array.from({ length: 12 }, (_, index) => (
-            <div className="naat-skeleton" key={index}>
-              <span className="naat-skeleton-art" />
-              <span className="naat-skeleton-lines"><i /><i /></span>
-            </div>
-          ))}
+          {Array.from({ length: 10 }, (_, index) => <div className="naat-skeleton" key={index}><span className="naat-skeleton-art" /><span className="naat-skeleton-lines"><i /><i /></span></div>)}
         </div>
       ) : tracks.length ? (
         <div className="naats-grid">
@@ -59,28 +52,20 @@ export default function FeaturedNaats() {
               <article className={active ? 'naat-card is-active' : 'naat-card'} key={track.id}>
                 <button className="naat-art" onClick={() => play(track, index)} aria-label={`Play ${track.title}`}>
                   <img src={track.artwork} alt={`${track.title} cover art`} loading="lazy" />
-                  <span className="naat-art-play">
-                    {active && player.isPlaying ? <Pause size={21} fill="currentColor" /> : <Play size={21} fill="currentColor" />}
-                  </span>
+                  <span className="naat-art-play">{active && player.isPlaying ? <Pause size={21} fill="currentColor" /> : <Play size={21} fill="currentColor" />}</span>
                   <span className="naat-track-number">{String(index + 1).padStart(2, '0')}</span>
                 </button>
                 <button className="naat-info" onClick={() => play(track, index)}>
-                  <span className="naat-type">FEATURED RECITATION</span>
-                  <h3>{track.title}</h3>
-                  <p>{track.artist}</p>
+                  <span className="naat-type">NAAT COLLECTION · {String(index + 1).padStart(2, '0')}</span>
+                  <h3>{track.title}</h3><p>{track.artist}</p>
                 </button>
-                <button className="naat-inline-play" onClick={() => play(track, index)} aria-label={`Open player for ${track.title}`}>
-                  {active && player.isPlaying ? <Pause size={17} /> : <Play size={17} />}
-                </button>
+                <button className="naat-inline-play" onClick={() => play(track, index)} aria-label={`Open player for ${track.title}`}>{active && player.isPlaying ? <Pause size={17} /> : <Play size={17} />}</button>
               </article>
             );
           })}
         </div>
       ) : (
-        <div className="naats-empty">
-          <MoonStar size={24} />
-          <div><strong>Collection is refreshing</strong><p>Featured Naats are temporarily unavailable. Please try again shortly.</p></div>
-        </div>
+        <div className="naats-empty"><MoonStar size={24} /><div><strong>Collection is refreshing</strong><p>Featured Naats are temporarily unavailable. Please try again shortly.</p></div></div>
       )}
       <div className="naats-footer-note">A NEW LISTENING EXPERIENCE BY <strong>ZXH OFFICIAL</strong></div>
     </section>
