@@ -1,0 +1,490 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 0, 140, 0.55) 0%,
+    rgba(230, 0, 116, 0.45) 30%,
+    rgba(104, 0, 61, 0.7) 70%,
+    rgba(30, 0, 20, 0.85) 100%
+  );
+  mix-blend-mode: multiply;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: calc(var(--header-h) + 32px) 32px 120px;
+  display: grid;
+  grid-template-columns: 280px 1fr 300px;
+  grid-template-rows: auto 1fr auto;
+  gap: 24px;
+  min-height: 100vh;
+}
+
+/* Left collection */
+.music-collection {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  align-self: start;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  max-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+.collection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.collection-header h3 {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--soft-pink);
+}
+
+.play-all-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--white);
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  transition: all 0.2s;
+}
+
+.play-all-btn:hover {
+  background: var(--fuchsia);
+}
+
+.collection-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.track-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.track-row:hover,
+.track-row.active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.track-art {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.track-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.track-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-artist {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-duration {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.track-play {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.track-row:hover .track-play,
+.track-row.active .track-play {
+  opacity: 1;
+}
+
+/* Floating controller */
+.floating-controller {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  align-self: start;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-glow);
+}
+
+.fc-art {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.fc-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fc-controls button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.fc-controls button:hover,
+.fc-controls button.active {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.fc-play {
+  background: var(--fuchsia) !important;
+  color: white !important;
+  width: 38px !important;
+  height: 38px !important;
+}
+
+.fc-placeholder {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 4px 8px;
+}
+
+/* Hero text */
+.hero-text {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  align-self: end;
+  text-align: right;
+  padding-bottom: 16px;
+}
+
+.hero-desc {
+  max-width: 380px;
+  margin-left: auto;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #fff 0%, #FF9AD5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Core Player bottom left */
+.core-player {
+  grid-column: 1 / 2;
+  grid-row: 3;
+  align-self: end;
+}
+
+.core-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  max-width: 220px;
+}
+
+.core-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.scroll-arrow {
+  animation: scroll-hint 1.8s ease-in-out infinite;
+}
+
+/* Featured tiles bottom right */
+.hero-featured {
+  grid-column: 2 / 4;
+  grid-row: 3;
+  justify-self: end;
+  align-self: end;
+}
+
+.featured-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.play-all-sm {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--soft-pink);
+}
+
+.featured-tiles {
+  display: flex;
+  gap: 14px;
+}
+
+.featured-tile {
+  position: relative;
+  width: 160px;
+  height: 110px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transition: transform 0.25s ease;
+}
+
+.featured-tile:hover {
+  transform: translateY(-4px);
+}
+
+.featured-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tile-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 60%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.tile-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tile-artist {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.tile-play {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.featured-tile:hover .tile-play {
+  opacity: 1;
+}
+
+/* Skeletons */
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.06) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.track-row.skeleton {
+  height: 58px;
+}
+
+.featured-tile.skeleton {
+  background: rgba(255,255,255,0.08);
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .hero-content {
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: auto auto 1fr auto;
+  }
+
+  .floating-controller {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .hero-text {
+    grid-column: 1 / 3;
+    grid-row: 3;
+    text-align: left;
+  }
+
+  .hero-desc {
+    margin-left: 0;
+  }
+
+  .core-player {
+    grid-column: 1;
+    grid-row: 4;
+  }
+
+  .hero-featured {
+    grid-column: 2;
+    grid-row: 4;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    padding: calc(var(--header-h) + 16px) 16px 100px;
+    gap: 20px;
+  }
+
+  .music-collection {
+    order: 2;
+    max-height: none;
+  }
+
+  .floating-controller {
+    order: 1;
+    align-self: flex-end;
+  }
+
+  .hero-text {
+    order: 3;
+    text-align: left;
+  }
+
+  .hero-title {
+    font-size: 2.6rem;
+  }
+
+  .core-player {
+    order: 4;
+  }
+
+  .hero-featured {
+    order: 5;
+    width: 100%;
+  }
+
+  .featured-tiles {
+    width: 100%;
+  }
+
+  .featured-tile {
+    flex: 1;
+    width: auto;
+  }
+
+  .hero-image {
+    object-position: center top;
+  }
+}
