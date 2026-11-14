@@ -1,37 +1,6 @@
+import { Link } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 import './CategorySection.css';
-
-const categories = [
-  { id: 'bollywood', name: 'Bollywood', gradient: 'linear-gradient(135deg, #FF008C, #FF6B00)' },
-  { id: 'punjabi', name: 'Punjabi', gradient: 'linear-gradient(135deg, #E60074, #FFD700)' },
-  { id: 'pakistani', name: 'Pakistani Music', gradient: 'linear-gradient(135deg, #68003D, #00C9A7)' },
-  { id: 'english', name: 'English Music', gradient: 'linear-gradient(135deg, #B77CFF, #FF008C)' },
-  { id: 'hollywood', name: 'Naats & Nasheeds', gradient: 'linear-gradient(135deg, #43001F, #2E8B57)' },
-  { id: 'sufi', name: 'Sufi & Qawwali', gradient: 'linear-gradient(135deg, #FF1493, #4A0080)' },
-  { id: 'romantic', name: 'Romantic', gradient: 'linear-gradient(135deg, #FF9AD5, #E60074)' },
-  { id: 'sad', name: 'Sad Songs', gradient: 'linear-gradient(135deg, #43001F, #1a0030)' },
-  { id: 'chill', name: 'Chill & Lo-fi', gradient: 'linear-gradient(135deg, #B77CFF, #00B4D8)' },
-  { id: 'workout', name: 'Workout', gradient: 'linear-gradient(135deg, #FF008C, #FF3D00)' },
-  { id: 'party', name: 'Party Hits', gradient: 'linear-gradient(135deg, #E60074, #FFEA00)' },
-  { id: 'instrumental', name: 'Instrumental', gradient: 'linear-gradient(135deg, #68003D, #7B2CBF)' },
-];
-
-export default function CategorySection() {
-  return (
-    <section className="category-section">
-      <div className="section-header">
-        <h2>EXPLORE CATEGORIES</h2>
-      </div>
-      <div className="category-grid">
-        {categories.map((c) => (
-          <div
-            key={c.id}
-            className="category-card"
-            style={{ background: c.gradient }}
-          >
-            <span>{c.name}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
+const categories=[
+{id:'bollywood',name:'Bollywood',sub:'Film favourites',gradient:'linear-gradient(135deg,#FF008C,#FF6B00)'},{id:'punjabi',name:'Punjabi',sub:'Bhangra & beats',gradient:'linear-gradient(135deg,#E60074,#B77CFF)'},{id:'pakistani',name:'Pakistani',sub:'Local sounds',gradient:'linear-gradient(135deg,#006B55,#00C9A7)'},{id:'english',name:'English',sub:'Global hits',gradient:'linear-gradient(135deg,#4254C5,#B77CFF)'},{id:'naat',name:'Naats & Nasheeds',sub:'Peaceful listening',gradient:'linear-gradient(135deg,#145B42,#2E8B57)'},{id:'sufi',name:'Sufi & Qawwali',sub:'Soulful traditions',gradient:'linear-gradient(135deg,#FF1493,#4A0080)'},{id:'romantic',name:'Romantic',sub:'Love in every note',gradient:'linear-gradient(135deg,#FF9AD5,#E60074)'},{id:'sad',name:'Sad Songs',sub:'For quiet moments',gradient:'linear-gradient(135deg,#43001F,#1a0030)'},{id:'chill',name:'Chill & Lo-fi',sub:'Slow it down',gradient:'linear-gradient(135deg,#6750A4,#00B4D8)'},{id:'workout',name:'Workout',sub:'Power your session',gradient:'linear-gradient(135deg,#FF008C,#FF3D00)'},{id:'party',name:'Party Hits',sub:'Turn it up',gradient:'linear-gradient(135deg,#E60074,#FF9A00)'},{id:'instrumental',name:'Instrumental',sub:'No words needed',gradient:'linear-gradient(135deg,#68003D,#7B2CBF)'}];
+export default function CategorySection(){return <section className="category-section" id="genres"><div className="section-header"><div><span className="category-eyebrow">PICK YOUR SOUND</span><h2>EXPLORE CATEGORIES</h2></div><Link to="/discover" className="category-more">All genres <ArrowUpRight size={16}/></Link></div><div className="category-grid">{categories.map(c=><Link key={c.id} to={`/genre/${c.id}`} className="category-card" style={{background:c.gradient}}><span>{c.name}</span><small>{c.sub}</small><ArrowUpRight className="category-arrow" size={18}/></Link>)}</div></section>}
